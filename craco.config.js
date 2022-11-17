@@ -1,4 +1,3 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
 module.exports = {
@@ -7,9 +6,6 @@ module.exports = {
   },
   webpack: {
     plugins: [
-      new HtmlWebpackPlugin({
-        template: "./public/index.html",
-      }),
       new ModuleFederationPlugin({
         name: "flow_builder",
         filename: "remoteEntry.js",
