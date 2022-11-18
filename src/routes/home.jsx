@@ -1,8 +1,8 @@
-import { useEffect } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 function Home() {
-  const routerParams = useParams();
+  const [useCaseID, setUseCaseID] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const featureFlags = {
     InputsValidation: localStorage.getItem("development_inputsValidation"),
@@ -12,8 +12,9 @@ function Home() {
 
   useEffect(() => {
     //FETCH THE USE CASE DATA
-    console.log(routerParams.uuid);
-  }, [routerParams.uuid]);
+    const useCaseID = window.location.pathname.split("/")[2];
+    setUseCaseID(useCaseID);
+  }, []);
 
   useEffect(() => {
     //FETCH THE NODE DATA
@@ -34,7 +35,7 @@ function Home() {
       <br />
       <div>
         <span>
-          <b>The use case id is:</b> {routerParams.uuid}
+          <b>The use case id is:</b> {useCaseID}
         </span>
       </div>
       <br />

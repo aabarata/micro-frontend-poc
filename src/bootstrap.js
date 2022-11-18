@@ -6,14 +6,20 @@ import App from "./App";
 import "./index.css";
 
 const router = createBrowserRouter([
-  {
+  /*{
     path: "/use_cases/:uuid",
+    element: <App />,
+  },*/
+  {
+    path: "*",
     element: <App />,
   },
 ]);
 
+let root;
+
 const mount = (el) => {
-  const root = ReactDOM.createRoot(document.getElementById(el));
+  root = ReactDOM.createRoot(document.getElementById(el));
   root.render(
     <React.StrictMode>
       <RouterProvider router={router} />
@@ -21,8 +27,12 @@ const mount = (el) => {
   );
 };
 
+const unmount = (el) => {
+  root.unmount();
+};
+
 /*if (process.env.NODE_ENV === "development") {
   mount("root");
 }*/
 
-export { mount };
+export { mount, unmount };
