@@ -1,9 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import axios from "axios";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
 
-import "./index.css";
+axios.defaults.baseURL = "http://localhost:3035/api";
+axios.defaults.withCredentials = true;
+if (localStorage.getItem("development_bosCurrentJWT")) {
+  axios.defaults.headers.common.Authorization = localStorage.getItem(
+    "development_bosCurrentJWT"
+  );
+} else {
+  console.error("You need to set a token to use the flow builder");
+}
 
 const router = createBrowserRouter([
   /*{

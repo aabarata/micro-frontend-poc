@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import axios from "axios";
+
+import "./home.scss";
 
 function Home() {
   const [useCaseID, setUseCaseID] = useState(null);
+  const [useCaseData, setUseCaseData] = useState({});
   const [searchParams, setSearchParams] = useSearchParams();
   const featureFlags = {
     InputsValidation: localStorage.getItem("development_inputsValidation"),
@@ -11,15 +15,17 @@ function Home() {
   };
 
   useEffect(() => {
-    //FETCH THE USE CASE DATA
-    const useCaseID = window.location.pathname.split("/")[2];
-    setUseCaseID(useCaseID);
+    return async () => {
+      const useCaseID = window.location.pathname.split("/")[2];
+      const FETCH_PATH = (useCaseId) => `/services/${useCaseId}`;
+      const response = await axios.get(FETCH_PATH(useCaseID));
+      setUseCaseData(response.data);
+      setUseCaseID(useCaseID);
+      if (searchParams.get("nodeUUID")) {
+        setSearchParams({ nodeUUID: searchParams.get("nodeUUID") });
+      }
+    };
   }, []);
-
-  useEffect(() => {
-    //FETCH THE NODE DATA
-    console.log(searchParams.get("nodeUUID"));
-  }, [searchParams]);
 
   const handleSelectNodeClick = () => {
     setSearchParams({ nodeUUID: "xxxx-xxxx-xxxx-xxxx" });
@@ -37,6 +43,33 @@ function Home() {
         <span>
           <b>The use case id is:</b> {useCaseID}
         </span>
+        <br />
+        <br />
+        <span>
+          <b>Use case data:</b>
+        </span>
+        <ul>
+          {Object.keys(useCaseData).map((key, index) =>
+            useCaseData[key] &&
+            typeof useCaseData[key] === "object" &&
+            Object.keys(useCaseData[key]).length > 1 ? (
+              <li key={index} className="li-1">
+                {key}:
+                <ul>
+                  {Object.keys(useCaseData[key]).map((minorKey, minorIndex) => (
+                    <li key={minorIndex} className="li-2">
+                      {minorKey}: {useCaseData[key][minorKey]}
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ) : (
+              <li key={index} className="li-1">
+                {key}: {useCaseData[key]}
+              </li>
+            )
+          )}
+        </ul>
       </div>
       <br />
       <div>
@@ -57,6 +90,10 @@ function Home() {
           <b>Selected node UUID: </b>
           {searchParams.get("nodeUUID")}
         </span>
+        <div>
+          <b>Should open the drawer?</b>
+          {searchParams.get("nodeUUID") ? " Yes" : " No"}
+        </div>
       </div>
       <br />
       <br />

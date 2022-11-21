@@ -3,6 +3,24 @@ const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPl
 module.exports = {
   devServer: {
     port: 4000,
+    allowedHosts: [".test"],
+    historyApiFallback: {
+      index: "/index.html",
+    },
+    proxy: {
+      "/api/": {
+        pathRewrite: { "^/api": "" },
+        target: "https://preprod-bos.mindsay.com",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+      "Access-Control-Allow-Headers":
+        "X-Requested-With, content-type, Authorization",
+    },
   },
   webpack: {
     plugins: [
