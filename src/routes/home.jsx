@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import axios from "axios";
 
 import "./home.scss";
@@ -13,22 +13,32 @@ function Home() {
     Conditions: localStorage.getItem("development_conditions"),
     Tags: localStorage.getItem("development_tags"),
   };
+  const navigate = useNavigate();
 
   useEffect(() => {
-    return async () => {
-      const useCaseID = window.location.pathname.split("/")[2];
+    if (window.location.href.includes("nodeUuid")) {
+      navigate(
+        `${window.location.pathname}?nodeUuid=${searchParams.get("nodeUuid")}`,
+        { replace: true }
+      );
+    } else {
+      navigate(window.location.pathname, { replace: true });
+    }
+    const useCaseID = window.location.pathname.split("/")[2];
+    fetchUseCaseData(useCaseID);
+    setUseCaseID(useCaseID);
+  }, []);
+
+  const fetchUseCaseData = async (useCaseID) => {
+    if (useCaseID) {
       const FETCH_PATH = (useCaseId) => `/services/${useCaseId}`;
       const response = await axios.get(FETCH_PATH(useCaseID));
       setUseCaseData(response.data);
-      setUseCaseID(useCaseID);
-      if (searchParams.get("nodeUUID")) {
-        setSearchParams({ nodeUUID: searchParams.get("nodeUUID") });
-      }
-    };
-  }, []);
+    }
+  };
 
   const handleSelectNodeClick = () => {
-    setSearchParams({ nodeUUID: "xxxx-xxxx-xxxx-xxxx" });
+    setSearchParams({ nodeUuid: "xxxx-xxxx-xxxx-xxxx" });
   };
 
   const handleUnselectNodeClick = () => {
@@ -88,11 +98,11 @@ function Home() {
       <div>
         <span>
           <b>Selected node UUID: </b>
-          {searchParams.get("nodeUUID")}
+          {searchParams.get("nodeUuid")}
         </span>
         <div>
           <b>Should open the drawer?</b>
-          {searchParams.get("nodeUUID") ? " Yes" : " No"}
+          {searchParams.get("nodeUuid") ? " Yes" : " No"}
         </div>
       </div>
       <br />

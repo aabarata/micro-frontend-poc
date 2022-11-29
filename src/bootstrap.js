@@ -15,10 +15,6 @@ if (localStorage.getItem("development_bosCurrentJWT")) {
 }
 
 const router = createBrowserRouter([
-  /*{
-    path: "/use_cases/:uuid",
-    element: <App />,
-  },*/
   {
     path: "*",
     element: <App />,
@@ -28,15 +24,17 @@ const router = createBrowserRouter([
 let root;
 
 const mount = (el) => {
-  root = ReactDOM.createRoot(document.getElementById(el));
-  root.render(
-    <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>
-  );
+  setTimeout(() => {
+    root = ReactDOM.createRoot(document.getElementById(el));
+    root.render(
+      <React.StrictMode>
+        <RouterProvider router={router} />
+      </React.StrictMode>
+    );
+  }, 0);
 };
 
-const unmount = (el) => {
+const unmount = () => {
   root.unmount();
 };
 
