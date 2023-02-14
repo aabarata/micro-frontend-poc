@@ -30,6 +30,10 @@ module.exports = {
         exposes: {
           "./FlowBuilder": "./src/bootstrap",
         },
+        remotes: {
+          components_library:
+            "components_library@http://localhost:4001/remoteEntry.js",
+        },
       }),
     ],
     configure: (webpackConfig, { env, paths }) => {

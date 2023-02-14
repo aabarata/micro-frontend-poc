@@ -1,8 +1,10 @@
+import React from "react";
 import { useEffect, useState } from "react";
-import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 
 import "./home.scss";
+const CLInput = React.lazy(() => import("components_library/Input"));
 
 function Home() {
   const [useCaseID, setUseCaseID] = useState(null);
@@ -27,7 +29,7 @@ function Home() {
     const useCaseID = window.location.pathname.split("/")[2];
     fetchUseCaseData(useCaseID);
     setUseCaseID(useCaseID);
-  }, []);
+  }, [navigate, searchParams]);
 
   const fetchUseCaseData = async (useCaseID) => {
     if (useCaseID) {
@@ -48,6 +50,13 @@ function Home() {
   return (
     <div className="home">
       <h1>Welcome to the React micro-frontend</h1>
+      <br />
+      <div>
+        <label>Imported input</label>
+        <div>
+          <CLInput type="date" />
+        </div>
+      </div>
       <br />
       <div>
         <span>
