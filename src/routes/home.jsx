@@ -54,7 +54,7 @@ function Home() {
       <div>
         <label>Imported input</label>
         <div>
-          <CLInput type="date" />
+          <CLInput type="date" size="l" />
         </div>
       </div>
       <br />

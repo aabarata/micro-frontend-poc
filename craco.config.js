@@ -1,4 +1,7 @@
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
+const ExternalTemplateRemotesPlugin = require("external-remotes-plugin");
+
+const deps = require("./package.json").dependencies;
 
 module.exports = {
   devServer: {
@@ -34,7 +37,18 @@ module.exports = {
           components_library:
             "components_library@http://localhost:4001/remoteEntry.js",
         },
+        shared: {
+          react: {
+            singleton: true,
+            requiredVersion: deps.react,
+          },
+          "react-dom": {
+            singleton: true,
+            requiredVersion: deps["react-dom"],
+          },
+        },
       }),
+      new ExternalTemplateRemotesPlugin(),
     ],
     configure: (webpackConfig, { env, paths }) => {
       webpackConfig.output = {
