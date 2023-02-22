@@ -2,9 +2,10 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
+import styles from "./home.module.scss";
 
-import "./home.scss";
 const CLInput = React.lazy(() => import("components_library/Input"));
+const { green } = require("components_library/ColorsJS");
 
 function Home() {
   const [useCaseID, setUseCaseID] = useState(null);
@@ -48,7 +49,7 @@ function Home() {
   };
 
   return (
-    <div className="home">
+    <div className={styles.homeWrapper}>
       <h1>Welcome to the React micro-frontend</h1>
       <br />
       <div>
@@ -56,6 +57,11 @@ function Home() {
         <div>
           <CLInput type="date" size="l" />
         </div>
+      </div>
+      <div>
+        <label>Imported colors</label>
+        <div>JS: {green("600")} </div>
+        <div className={styles.moduleColor}> Aaaaaa </div>
       </div>
       <br />
       <div>
@@ -72,18 +78,18 @@ function Home() {
             useCaseData[key] &&
             typeof useCaseData[key] === "object" &&
             Object.keys(useCaseData[key]).length > 1 ? (
-              <li key={index} className="li-1">
+              <li key={index} className={styles.li_1}>
                 {key}:
                 <ul>
                   {Object.keys(useCaseData[key]).map((minorKey, minorIndex) => (
-                    <li key={minorIndex} className="li-2">
+                    <li key={minorIndex} className={styles.li_2}>
                       {minorKey}: {useCaseData[key][minorKey]}
                     </li>
                   ))}
                 </ul>
               </li>
             ) : (
-              <li key={index} className="li-1">
+              <li key={index} className={styles.li_1}>
                 {key}: {useCaseData[key]}
               </li>
             )
