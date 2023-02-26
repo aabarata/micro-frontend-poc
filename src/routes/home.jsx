@@ -5,7 +5,8 @@ import axios from "axios";
 import styles from "./home.module.scss";
 
 const CLInput = React.lazy(() => import("components_library/Input"));
-const { green } = require("components_library/ColorsJS");
+const CLIcon = React.lazy(() => import("components_library/Icon"));
+const { green, blue, teal } = require("components_library/ColorsJS");
 
 function Home() {
   const [useCaseID, setUseCaseID] = useState(null);
@@ -56,6 +57,13 @@ function Home() {
         <label>Imported input</label>
         <div>
           <CLInput type="date" size="l" />
+        </div>
+      </div>
+      <div>
+        <label>Imported icon</label>
+        <div>
+          <CLIcon name="message-agent" size={36} color={blue("600")} />
+          <CLIcon name="shapes" size={36} color={teal("600")} />
         </div>
       </div>
       <div>
