@@ -56,7 +56,7 @@ function Home() {
       <div>
         <label>Imported input</label>
         <div>
-          <CLInput type="date" size="l" />
+          <CLInput type="date" size="medium" onChange={console.log} />
         </div>
       </div>
       <div>
