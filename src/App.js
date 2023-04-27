@@ -1,11 +1,20 @@
-import Home from "./routes/home";
+import {useEffect, useState} from "react";
 
-import "./App.scss";
+function App({eventType = "coucou", baseData}) {
+  const [filters, setFilters] = useState(baseData);
+  const listener = (event) => {
+    setFilters(event.detail.filters);
+  }
+  useEffect(() => {
+    document.addEventListener(eventType, listener);
+    return () => {
+      document.removeEventListener(eventType, listener);
+    }
+  }, []);
 
-function App() {
   return (
     <div className="app">
-      <Home />
+      {JSON.stringify(filters)}
     </div>
   );
 }

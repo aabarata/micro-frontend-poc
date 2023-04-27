@@ -14,21 +14,21 @@ if (localStorage.getItem("development_bosCurrentJWT")) {
   console.error("You need to set a token to use the flow builder");
 }
 
-const router = createBrowserRouter([
+const router = ({eventType, baseData}) => createBrowserRouter([
   {
     path: "*",
-    element: <App />,
+    element: <App eventType={eventType} baseData={baseData} />,
   },
 ]);
 
 let root;
 
-const mount = (el) => {
+const mount = (el, {eventType, baseData }) => {
   setTimeout(() => {
     root = ReactDOM.createRoot(document.getElementById(el));
     root.render(
       <React.StrictMode>
-        <RouterProvider router={router} />
+        <RouterProvider router={router({eventType, baseData})} />
       </React.StrictMode>
     );
   }, 0);
