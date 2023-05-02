@@ -5,7 +5,7 @@ const deps = require("./package.json").dependencies;
 
 module.exports = {
   devServer: {
-    port: 4000,
+    port: 4002,
     allowedHosts: [".test"],
     historyApiFallback: {
       index: "/index.html",
@@ -28,10 +28,10 @@ module.exports = {
   webpack: {
     plugins: [
       new ModuleFederationPlugin({
-        name: "flow_builder",
+        name: "analytics_dashboard",
         filename: "remoteEntry.js",
         exposes: {
-          "./FlowBuilder": "./src/bootstrap",
+          "./AnalyticsDashboard": "./src/bootstrap",
         },
         remotes: {
           components_library:
@@ -53,7 +53,7 @@ module.exports = {
     configure: (webpackConfig, { env, paths }) => {
       webpackConfig.output = {
         ...webpackConfig.output,
-        publicPath: "http://localhost:4000/",
+        publicPath: "http://localhost:4002/",
       };
       return webpackConfig;
     },
